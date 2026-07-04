@@ -1,7 +1,8 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import DemoView1 from './DemoView1.vue';
+
 </script>
 
 <template>
-  <HelloWorld />
+  <DemoView1></DemoView1>
 </template>
