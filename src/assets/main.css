@@ -1,7 +1,11 @@
+/* 全局基础配置 */
+
 *{
+    /* 让设置的宽高包含 padding 和 边框，尺寸更好计算 */
     box-sizing: border-box;
 }
 
+/* 根节点铺开，去除默认的外边距 */
 html,
 body,
 #app {
@@ -15,6 +19,7 @@ body {
     background: #f5f7fa;
 }
 
+/* 所有的按钮和输入框继承页面字体 */
 button,
 input {
     font: inherit;

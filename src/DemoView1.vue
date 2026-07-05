@@ -51,6 +51,7 @@
 
 .topbar {
     height: 64px;
+    flex-shrink: 0;
 }
 
 .content {
@@ -66,27 +67,39 @@
 }
 
 .stat-grid {
-    display: flex;
+    /* 网格布局，等宽排列四个卡片 */
+    display: grid;
+    /* 1fr表示一份剩余空间，所以四个就是四个等宽列 */
+    grid-template-columns: repeat(4, 1fr); 
     gap: 16px;
 
     .card {
-        width: 100px;
-        height: 40px;
-        background-color: white;
+        min-height: 120px;
+        background: white;
         border-radius: 10px;
         /* 文字居中 */
         display: flex;
         align-items: center;
         justify-content: center;
+        /* 阴影四参数：水平偏移 垂直偏移 模糊程度 阴影颜色 */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
     margin-bottom: 20px;
 }
 
 .panel-grid {
-    display: flex;
-    
-    .data-area {
-        width: 66.667%;
-    }
+    display: grid;
+    /* 2:1面板 */
+    grid-template-columns: 2fr 1fr;
+    gap: 16px;
+}
+
+.data-area,
+.dynamic-area {
+    min-height: 280px;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 </style>
