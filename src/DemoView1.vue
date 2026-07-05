@@ -123,4 +123,31 @@
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
+
+/* 响应式布局 */
+/* 当浏览器视口宽度不超过 1200px 时，使用里面的新规则。 */
+@media (max-width: 1200px) {
+    .stat-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .panel-grid {
+        grid-template-columns: 1fr;
+    }
+}
+@media (max-width: 768px) {
+    .sidebar {
+        display: none;
+    }
+
+    .stat-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+}
 </style>
