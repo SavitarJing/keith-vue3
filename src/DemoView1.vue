@@ -43,6 +43,8 @@
 
 .sidebar {
     width: 240px;
+    /* 不参与压缩 */
+    flex-shrink: 0;
 }
 
 .main {
