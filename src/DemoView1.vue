@@ -58,6 +58,19 @@
 .topbar {
     height: 64px;
     flex-shrink: 0;
+    /* 如果要出现滚动条,请设置 overflow-x: auto; */
+    display: flex;
+    align-items: center;
+
+    span {
+        min-width: 0;
+        /* 隐藏超出部分内容 */
+        overflow: hidden;
+        /* 不换行 */
+        white-space: nowrap;
+        /* 用省略号表示超出部分内容 */
+        text-overflow: ellipsis;
+    }
 }
 
 .content {
