@@ -7,7 +7,7 @@
         </div>
         <div class="main">
             <div class="topbar">
-                <span>顶部栏</span>
+                <span>顶部栏111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111</span>
             </div>
             <div class="content">
                 <div class="page-header">
@@ -35,8 +35,10 @@
 
 <style lang="css" scoped>
 .app-shell {
-    min-height: 100vh;
+    height: 100vh;
     display: flex;
+    /* 防止子元素撑出页面，确保只有内容区滚动 */
+    overflow: hidden;
 }
 
 .sidebar {
@@ -47,6 +49,8 @@
     flex: 1;
     display: flex;
     flex-direction: column;
+    /* 防止表格、长文本等把主区域横向撑开 */
+    min-width: 0;
 }
 
 .topbar {
@@ -58,6 +62,8 @@
     padding: 24px;
     /* 高度占满main区域剩余空间 */
     flex: 1;
+    /* min-height: 0; */
+    overflow: auto;
 }
 
 .page-header {
