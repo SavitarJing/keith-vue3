@@ -104,8 +104,29 @@
         justify-content: center;
         /* 阴影四参数：水平偏移 垂直偏移 模糊程度 阴影颜色 */
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+        cursor: pointer;
+        /* 定义悬浮动画 / 状态变化时的过渡规则 */
+        /* 浏览器会在 0.2 秒内，从开始状态逐渐变为结束状态。 */
+        transition: 
+            transform 0.2s ease,
+            box-shadow 0.2s ease;
+        /* 控制过渡动画从开始到结束需要花费的时间 */
+        transition-duration: 1s;
     }
     margin-bottom: 20px;
+}
+
+/* 悬浮动画 */
+.card:hover {
+    /* Y 表示垂直方向,负数向上移动 */
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* 点击反馈 */
+.card:active {
+    transform: translateY(-1px) scale(0.99);
 }
 
 .panel-grid {
