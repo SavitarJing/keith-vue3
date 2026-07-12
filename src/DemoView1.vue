@@ -55,6 +55,21 @@ const selectedCard = computed(
     }
 )
 
+// 根据输入关键词展示匹配的卡片
+const keyword = ref('')
+
+// 保存符合条件的card
+const filterCards = computed(() => {
+    // 使用filter函数过滤出匹配的数据
+    return statCards.filter(
+        card => {
+            // 字符串函数，用于查询某个字符串中是否包含指定字符串
+            return card.title.includes(keyword.value)
+        }
+    )
+})
+
+
 </script>
 
 <template>
@@ -72,14 +87,18 @@ const selectedCard = computed(
             <div class="content">
                 <div class="page-header">
                     <div class="page-title">
-                        <span>页面标题</span>
+                        <span style="margin-right: 10px;">页面标题</span>
+                        <input type="text" v-model="keyword" placeholder="请输入筛选关键字">
                     </div>
                     <div class="page-button">
                         <button>新建按钮</button>
                     </div>
                 </div>
                 <div class="stat-grid">
-                    <div class="card" v-for="card in statCards" :key="card.id" @click="handleCardSelected(card.id)"
+                    <div v-if="filterCards.length === 0">
+                        暂无匹配数据
+                    </div>
+                    <div class="card" v-else v-for="card in filterCards" :key="card.id" @click="handleCardSelected(card.id)"
                         :class="{ cardActive: selectedCardId === card.id }">
                         <span>{{ card.title }}</span>
                         <span>{{ card.value }}</span>
