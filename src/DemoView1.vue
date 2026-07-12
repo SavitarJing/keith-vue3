@@ -9,6 +9,35 @@ const changeSidebarStatus = () => {
     isExpand.value = !isExpand.value
 }
 
+// 定义卡片内容
+const statCards = [
+    {
+        id: 1,
+        title: '今日订单',
+        value: '128',
+        desc: '较昨日 +12%'
+    },
+    {
+        id: 2,
+        title: '今日退款',
+        value: '11',
+        desc: '较昨日 -20%'
+    },
+    {
+        id: 3,
+        title: '今日销售额',
+        value: '10000',
+        desc: '较昨日 +35%'
+    },
+    {
+        id: 4,
+        title: '今日成本',
+        value: '3000',
+        desc: '较昨日 持平'
+    },
+
+]
+
 </script>
 
 <template>
@@ -23,7 +52,7 @@ const changeSidebarStatus = () => {
                 <span>顶部栏</span>
                 <a-button type="primary" @click="changeSidebarStatus">{{ isExpand ? '收起侧边栏' : '展开侧边栏' }}</a-button>
             </div>
-            <div class="content">
+            <div class="title">
                 <div class="page-header">
                     <div class="page-title">
                         <span>页面标题</span>
@@ -33,10 +62,11 @@ const changeSidebarStatus = () => {
                     </div>
                 </div>
                 <div class="stat-grid">
-                    <div class="card"><span>card1</span></div>
-                    <div class="card"><span>card2</span></div>
-                    <div class="card"><span>card3</span></div>
-                    <div class="card"><span>card4</span></div>
+                    <div class="card" v-for="card in statCards" :key="card.id">
+                        <span>{{ card.title }}</span>
+                        <span>{{ card.value }}</span>
+                        <span>{{ card.desc }}</span>
+                    </div>
                 </div>
                 <div class="panel-grid">
                     <div class="data-area">数据区域</div>
@@ -125,6 +155,8 @@ const changeSidebarStatus = () => {
         border-radius: 10px;
         /* 文字居中 */
         display: flex;
+        flex-direction: column;
+        gap: 8px;
         align-items: center;
         justify-content: center;
         /* 阴影四参数：水平偏移 垂直偏移 模糊程度 阴影颜色 */
@@ -137,7 +169,7 @@ const changeSidebarStatus = () => {
             transform 0.2s ease,
             box-shadow 0.2s ease;
         /* 控制过渡动画从开始到结束需要花费的时间 */
-        transition-duration: 1s;
+        /* transition-duration: 1s; */
     }
 
     margin-bottom: 20px;
