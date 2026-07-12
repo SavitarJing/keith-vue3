@@ -38,6 +38,16 @@ const statCards = [
 
 ]
 
+// 记录当前选择的卡片id
+const selectedCardId = ref(null)
+
+// 处理卡片被选中事件
+const handleCardSelected = (id) => {
+    // 获取到当前选中card的id
+    selectedCardId.value = id
+    console.log('当前选中的卡片是', selectedCardId.value)
+}
+
 </script>
 
 <template>
@@ -52,7 +62,7 @@ const statCards = [
                 <span>顶部栏</span>
                 <a-button type="primary" @click="changeSidebarStatus">{{ isExpand ? '收起侧边栏' : '展开侧边栏' }}</a-button>
             </div>
-            <div class="title">
+            <div class="content">
                 <div class="page-header">
                     <div class="page-title">
                         <span>页面标题</span>
@@ -62,7 +72,7 @@ const statCards = [
                     </div>
                 </div>
                 <div class="stat-grid">
-                    <div class="card" v-for="card in statCards" :key="card.id">
+                    <div class="card" v-for="card in statCards" :key="card.id" @click="handleCardSelected(card.id)" :class="{cardActive: selectedCardId === card.id}">
                         <span>{{ card.title }}</span>
                         <span>{{ card.value }}</span>
                         <span>{{ card.desc }}</span>
@@ -173,6 +183,11 @@ const statCards = [
     }
 
     margin-bottom: 20px;
+}
+
+/* 给当前选中的卡片增加边框颜色 */
+.card.cardActive {
+    border: 2px solid #1677ff;
 }
 
 /* 悬浮动画 */
