@@ -10,33 +10,35 @@ const changeSidebarStatus = () => {
 }
 
 // 定义卡片内容
-const statCards = [
-    {
-        id: 1,
-        title: '今日订单',
-        value: '128',
-        desc: '较昨日 +12%'
-    },
-    {
-        id: 2,
-        title: '今日退款',
-        value: '11',
-        desc: '较昨日 -20%'
-    },
-    {
-        id: 3,
-        title: '今日销售额',
-        value: '10000',
-        desc: '较昨日 +35%'
-    },
-    {
-        id: 4,
-        title: '今日成本',
-        value: '3000',
-        desc: '较昨日 持平'
-    },
+const statCards = ref(
+    [
+        {
+            id: 1,
+            title: '今日订单',
+            value: '128',
+            desc: '较昨日 +12%'
+        },
+        {
+            id: 2,
+            title: '今日退款',
+            value: '11',
+            desc: '较昨日 -20%'
+        },
+        {
+            id: 3,
+            title: '今日销售额',
+            value: '10000',
+            desc: '较昨日 +35%'
+        },
+        {
+            id: 4,
+            title: '今日成本',
+            value: '3000',
+            desc: '较昨日 持平'
+        },
 
-]
+    ]
+)
 
 // 记录当前选择的卡片id
 const selectedCardId = ref(null)
@@ -51,7 +53,7 @@ const handleCardSelected = (id) => {
 // 利用find函数，根据卡片id反查整个卡片对象
 const selectedCard = computed(
     () => {
-        return statCards.find(card => card.id === selectedCardId.value)
+        return statCards.value.find(card => card.id === selectedCardId.value)
     }
 )
 
@@ -61,7 +63,7 @@ const keyword = ref('')
 // 保存符合条件的card
 const filterCards = computed(() => {
     // 使用filter函数过滤出匹配的数据
-    return statCards.filter(
+    return statCards.value.filter(
         card => {
             // 字符串函数，用于查询某个字符串中是否包含指定字符串
             return card.title.includes(keyword.value)
@@ -69,6 +71,38 @@ const filterCards = computed(() => {
     )
 })
 
+// 表单：新增卡片
+const cardForm = ref({
+    id: '',
+    title: '',
+    value: '',
+    desc: ''
+})
+
+const addNewCard = () => {
+    if (!cardForm.value.title.trim()) {
+        console.log('请输入内容')
+        return
+    }
+    // 新增卡片内容到数组中
+    statCards.value.push(
+        {
+            id: Date.now(),
+            title: cardForm.value.title,
+            value: cardForm.value.value,
+            desc: cardForm.value.desc
+        }
+    )
+    // 清空表单
+    clearForm()
+}
+
+// 清空表单方法
+const clearForm = () => {
+    cardForm.value.title = ''
+    cardForm.value.value = ''
+    cardForm.value.desc = ''
+}
 
 </script>
 
@@ -89,21 +123,36 @@ const filterCards = computed(() => {
                     <div class="page-title">
                         <span style="margin-right: 10px;">页面标题</span>
                         <input type="text" v-model="keyword" placeholder="请输入筛选关键字">
+                        <div class="card-form" style="margin-top: 20px;">
+                            <div class="card-form">
+                                <label for="title">标题：</label>
+                                <input type="text" v-model="cardForm.title" id="cardForm.title" name="cardForm.title"
+                                    placeholder="请输入卡片标题">
+                                <label for="value">数值：</label>
+                                <input type="text" v-model="cardForm.value" id="cardForm.value" name="cardForm.value"
+                                    placeholder="请输入卡片数值">
+                                <label for="desc">说明：</label>
+                                <input type="text" v-model="cardForm.desc" id="cardForm.desc" name="cardForm.desc"
+                                    placeholder="请输入卡片说明">
+                                <a-button type="primary" @click="addNewCard" size="small"
+                                    style="margin-left: 10px;">新增</a-button>
+                            </div>
+                        </div>
                     </div>
                     <div class="page-button">
                         <button>新建按钮</button>
                     </div>
                 </div>
-                <div class="stat-grid">
-                    <div v-if="filterCards.length === 0">
-                        暂无匹配数据
-                    </div>
-                    <div class="card" v-else v-for="card in filterCards" :key="card.id" @click="handleCardSelected(card.id)"
+                <div class="stat-grid" v-if="filterCards.length > 0">
+                    <div class="card" v-for="card in filterCards" :key="card.id" @click="handleCardSelected(card.id)"
                         :class="{ cardActive: selectedCardId === card.id }">
                         <span>{{ card.title }}</span>
                         <span>{{ card.value }}</span>
                         <span>{{ card.desc }}</span>
                     </div>
+                </div>
+                <div v-else>
+                    暂无匹配数据
                 </div>
                 <div class="card-detail">
                     <div v-if="!selectedCard">
