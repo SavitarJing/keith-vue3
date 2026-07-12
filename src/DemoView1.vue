@@ -1,13 +1,27 @@
-<script></script>
+<script setup>
+import { ref } from 'vue';
+
+// 定义是否展开侧边栏状态，初始为展开true
+const isExpand = ref(true)
+
+// 定义按钮点击事件，切换侧边栏状态
+const changeSidebarStatus = () => {
+    isExpand.value = !isExpand.value
+}
+
+</script>
 
 <template>
     <div class="app-shell">
-        <div class="sidebar">
+        <div class="sidebar" :class="{ shrink: !isExpand }">
             <span>侧边栏</span>
+            <div>option112121212</div>
+            <div>option2</div>
         </div>
         <div class="main">
             <div class="topbar">
-                <span>顶部栏111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111</span>
+                <span>顶部栏</span>
+                <a-button type="primary" @click="changeSidebarStatus">{{ isExpand ? '收起侧边栏' : '展开侧边栏' }}</a-button>
             </div>
             <div class="content">
                 <div class="page-header">
@@ -45,6 +59,15 @@
     width: 240px;
     /* 不参与压缩 */
     flex-shrink: 0;
+    padding: 20px;
+    transition: width 0.3s ease;
+}
+/* 根据状态变化动态显示地样式 */
+.sidebar.shrink {
+    width: 64px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .main {
@@ -57,10 +80,12 @@
 
 .topbar {
     height: 64px;
+    padding: 0 24px;
     flex-shrink: 0;
     /* 如果要出现滚动条,请设置 overflow-x: auto; */
     display: flex;
     align-items: center;
+    justify-content: space-between;
 
     span {
         min-width: 0;
@@ -91,7 +116,7 @@
     /* 网格布局，等宽排列四个卡片 */
     display: grid;
     /* 1fr表示一份剩余空间，所以四个就是四个等宽列 */
-    grid-template-columns: repeat(4, 1fr); 
+    grid-template-columns: repeat(4, 1fr);
     gap: 16px;
 
     .card {
@@ -108,12 +133,13 @@
         cursor: pointer;
         /* 定义悬浮动画 / 状态变化时的过渡规则 */
         /* 浏览器会在 0.2 秒内，从开始状态逐渐变为结束状态。 */
-        transition: 
+        transition:
             transform 0.2s ease,
             box-shadow 0.2s ease;
         /* 控制过渡动画从开始到结束需要花费的时间 */
         transition-duration: 1s;
     }
+
     margin-bottom: 20px;
 }
 
@@ -156,6 +182,7 @@
         grid-template-columns: 1fr;
     }
 }
+
 @media (max-width: 768px) {
     .sidebar {
         display: none;
