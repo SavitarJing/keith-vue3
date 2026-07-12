@@ -104,6 +104,17 @@ const clearForm = () => {
     cardForm.value.desc = ''
 }
 
+// 根据id删除卡片
+const deleteCard = (id) => {
+    if(selectedCardId.value === id) {
+        selectedCardId.value = null
+    }
+    // filter会返回一个新数组，而不是在原数组上更改，因此需要重新赋值
+     statCards.value =  statCards.value.filter(card => {
+        return card.id !== id
+    })
+}
+
 </script>
 
 <template>
@@ -149,6 +160,7 @@ const clearForm = () => {
                         <span>{{ card.title }}</span>
                         <span>{{ card.value }}</span>
                         <span>{{ card.desc }}</span>
+                        <button @click.stop="deleteCard(card.id)">删除</button>
                     </div>
                 </div>
                 <div v-else>
