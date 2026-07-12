@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 // 定义是否展开侧边栏状态，初始为展开true
 const isExpand = ref(true)
@@ -48,6 +48,13 @@ const handleCardSelected = (id) => {
     console.log('当前选中的卡片是', selectedCardId.value)
 }
 
+// 利用find函数，根据卡片id反查整个卡片对象
+const selectedCard = computed(
+    () => {
+        return statCards.find(card => card.id === selectedCardId.value)
+    }
+)
+
 </script>
 
 <template>
@@ -72,10 +79,21 @@ const handleCardSelected = (id) => {
                     </div>
                 </div>
                 <div class="stat-grid">
-                    <div class="card" v-for="card in statCards" :key="card.id" @click="handleCardSelected(card.id)" :class="{cardActive: selectedCardId === card.id}">
+                    <div class="card" v-for="card in statCards" :key="card.id" @click="handleCardSelected(card.id)"
+                        :class="{ cardActive: selectedCardId === card.id }">
                         <span>{{ card.title }}</span>
                         <span>{{ card.value }}</span>
                         <span>{{ card.desc }}</span>
+                    </div>
+                </div>
+                <div class="card-detail">
+                    <div v-if="!selectedCard">
+                        请选择一张统计卡片查看详情
+                    </div>
+                    <div v-else>
+                        <div>当前查看：{{ selectedCard.title }}</div>
+                        <div>数值：{{ selectedCard.value }}</div>
+                        <div>说明：{{ selectedCard.desc }}</div>
                     </div>
                 </div>
                 <div class="panel-grid">
@@ -102,6 +120,7 @@ const handleCardSelected = (id) => {
     padding: 20px;
     transition: width 0.3s ease;
 }
+
 /* 根据状态变化动态显示地样式 */
 .sidebar.shrink {
     width: 64px;
@@ -207,6 +226,7 @@ const handleCardSelected = (id) => {
     /* 2:1面板 */
     grid-template-columns: 2fr 1fr;
     gap: 16px;
+    margin-top: 20px;
 }
 
 .data-area,
