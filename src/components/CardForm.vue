@@ -1,11 +1,11 @@
 <template>
     <div class="card-form">
         <label for="title">标题：</label>
-        <input type="text" v-bind="props.modelValue.title" @input="handleInput('title', $event)" placeholder="请输入卡片标题">
+        <input type="text" v-bind:value="props.modelValue.title" @input="handleInput('title', $event)" placeholder="请输入卡片标题">
         <label for="value">数值：</label>
-        <input type="text" v-bind="props.modelValue.value" @input="handleInput('value', $event)" placeholder="请输入卡片数值">
+        <input type="text" v-bind:value="props.modelValue.value" @input="handleInput('value', $event)" placeholder="请输入卡片数值">
         <label for="desc">说明：</label>
-        <input type="text" v-bind="props.modelValue.desc" @input="handleInput('desc', $event)" placeholder="请输入卡片说明">
+        <input type="text" v-bind:value="props.modelValue.desc" @input="handleInput('desc', $event)" placeholder="请输入卡片说明">
         <a-button type="primary" @click="handleSubmit" size="small" style="margin-left: 10px;">新增</a-button>
     </div>
 </template>

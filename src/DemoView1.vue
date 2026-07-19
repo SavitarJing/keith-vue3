@@ -143,7 +143,6 @@ const deleteCard = (id) => {
                         </div>
                     </div>
                 </div>
-                <p>父组件中的标题：{{ cardForm.title }}</p>
                 <div class="stat-grid" v-if="filterCards.length > 0">
                     <stat-card v-for="card in filterCards" :key="card.id" :card="card"
                         :is-active="selectedCardId === card.id" @select="handleCardSelected"
