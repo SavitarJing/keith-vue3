@@ -7,6 +7,7 @@
         <label for="desc">说明：</label>
         <input type="text" v-bind:value="props.modelValue.desc" @input="handleInput('desc', $event)" placeholder="请输入卡片说明">
         <a-button type="primary" @click="handleSubmit" size="small" style="margin-left: 10px;">新增</a-button>
+        <a-button type="primary" @click="handleReset" size="small" style="margin-left: 10px;">清空</a-button>
     </div>
 </template>
 
@@ -20,11 +21,15 @@ const props = defineProps({
     }
 })
 
-const emit = defineEmits(['update:modelValue', 'submit'])
+const emit = defineEmits(['update:modelValue', 'submit', 'reset'])
 
 
 const handleSubmit = () => {
     emit('submit')
+}
+
+const handleReset = () => {
+    emit('reset')
 }
 
 const handleInput =(field, event)=> {

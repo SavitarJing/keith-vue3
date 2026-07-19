@@ -83,20 +83,35 @@ const cardForm = ref({
     desc: ''
 })
 
-const addNewCard = () => {
+// 记录正在编辑的卡片
+const editingCardId = ref(null)
+
+const handleSubmitCard = () => {
     if (!cardForm.value.title.trim()) {
         console.log('请输入内容')
         return
     }
-    // 新增卡片内容到数组中
-    statCards.value.push(
-        {
-            id: Date.now(),
-            title: cardForm.value.title,
-            value: cardForm.value.value,
-            desc: cardForm.value.desc
-        }
-    )
+    // 如果没有选中卡片，就是新增卡片
+    if (editingCardId.value === null) {
+        // 新增卡片内容到数组中
+        statCards.value.push(
+            {
+                id: Date.now(),
+                title: cardForm.value.title,
+                value: cardForm.value.value,
+                desc: cardForm.value.desc
+            }
+        )
+    } else {
+        // 编辑模式，修改编辑的卡片的内容
+        const index = statCards.value.findIndex(card => card.id === editingCardId.value)
+        statCards.value[index] = { ...cardForm.value }
+    }
+
+    if (index === -1) {
+        console.log('没有找到正在编辑的卡片')
+        return
+    }
 
     clearCardForm()
 }
@@ -106,6 +121,8 @@ const clearCardForm = () => {
     cardForm.value.title = ''
     cardForm.value.value = ''
     cardForm.value.desc = ''
+
+    editingCardId.value = null
 }
 
 // 根据id删除卡片
@@ -120,16 +137,18 @@ const deleteCard = (id) => {
 }
 
 const handleEditCard = () => {
-    if(!selectedCard.value) {
+    if (!selectedCard.value) {
         console.log('当前未选中任何卡片')
         return
     }
+    editingCardId.value = selectedCard.value.id
+    console.log('当前正在编辑的卡片id为：', editingCardId.value)
     /**
      * 将当前选中的卡片对象的值复制到表单中
      * 对象赋值不等于复制，直接赋值操作没有创建新对象，只是让两个变量指向同一个对象。
      * 如果想创建独立副本，可以使用对象展开
      */
-    cardForm.value = {...selectedCard.value}
+    cardForm.value = { ...selectedCard.value }
 }
 
 </script>
@@ -152,7 +171,7 @@ const handleEditCard = () => {
                         <span style="margin-right: 10px;">页面标题</span>
                         <input type="text" v-model="keyword" placeholder="请输入筛选关键字">
                         <div style="margin-top: 20px;">
-                            <card-form v-model="cardForm" @submit="addNewCard"></card-form>
+                            <card-form v-model="cardForm" @submit="handleSubmitCard" @reset="clearCardForm"></card-form>
                         </div>
                     </div>
                     <a-button @click="handleEditCard">编辑选中卡片</a-button>
@@ -165,6 +184,7 @@ const handleEditCard = () => {
                 <div v-else>
                     暂无匹配数据
                 </div>
+                <pre>当前模式为：{{ editingCardId ? '编辑模式' : '新增模式' }}</pre>
                 <card-detail :card="selectedCard"></card-detail>
                 <div class="panel-grid">
                     <div class="data-area">数据区域</div>
