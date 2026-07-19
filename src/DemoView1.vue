@@ -76,8 +76,15 @@ const filterCards = computed(() => {
 
 
 // 新增卡片
-const addNewCard = (form) => {
-    if (!form.title.trim()) {
+// 表单：新增卡片
+const cardForm = ref({
+    title: '',
+    value: '',
+    desc: ''
+})
+
+const addNewCard = () => {
+    if (!cardForm.value.title.trim()) {
         console.log('请输入内容')
         return
     }
@@ -85,13 +92,21 @@ const addNewCard = (form) => {
     statCards.value.push(
         {
             id: Date.now(),
-            title: form.title,
-            value: form.value,
-            desc: form.desc
+            title: cardForm.value.title,
+            value: cardForm.value.value,
+            desc: cardForm.value.desc
         }
     )
+
+    clearCardForm()
 }
 
+// 清空表单
+const clearCardForm = () => {
+    cardForm.value.title = ''
+    cardForm.value.value = ''
+    cardForm.value.desc = ''
+}
 
 // 根据id删除卡片
 const deleteCard = (id) => {
@@ -124,10 +139,11 @@ const deleteCard = (id) => {
                         <span style="margin-right: 10px;">页面标题</span>
                         <input type="text" v-model="keyword" placeholder="请输入筛选关键字">
                         <div style="margin-top: 20px;">
-                            <card-form @submit="addNewCard"></card-form>
+                            <card-form v-model="cardForm" @submit="addNewCard"></card-form>
                         </div>
                     </div>
                 </div>
+                <p>父组件中的标题：{{ cardForm.title }}</p>
                 <div class="stat-grid" v-if="filterCards.length > 0">
                     <stat-card v-for="card in filterCards" :key="card.id" :card="card"
                         :is-active="selectedCardId === card.id" @select="handleCardSelected"
