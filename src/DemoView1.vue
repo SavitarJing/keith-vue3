@@ -119,6 +119,19 @@ const deleteCard = (id) => {
     })
 }
 
+const handleEditCard = () => {
+    if(!selectedCard.value) {
+        console.log('当前未选中任何卡片')
+        return
+    }
+    /**
+     * 将当前选中的卡片对象的值复制到表单中
+     * 对象赋值不等于复制，直接赋值操作没有创建新对象，只是让两个变量指向同一个对象。
+     * 如果想创建独立副本，可以使用对象展开
+     */
+    cardForm.value = {...selectedCard.value}
+}
+
 </script>
 
 <template>
@@ -142,6 +155,7 @@ const deleteCard = (id) => {
                             <card-form v-model="cardForm" @submit="addNewCard"></card-form>
                         </div>
                     </div>
+                    <a-button @click="handleEditCard">编辑选中卡片</a-button>
                 </div>
                 <div class="stat-grid" v-if="filterCards.length > 0">
                     <stat-card v-for="card in filterCards" :key="card.id" :card="card"
