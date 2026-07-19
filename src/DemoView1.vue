@@ -1,5 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue';
+import StatCard from './components/StatCard.vue';
 
 // 定义是否展开侧边栏状态，初始为展开true
 const isExpand = ref(true)
@@ -106,11 +107,11 @@ const clearForm = () => {
 
 // 根据id删除卡片
 const deleteCard = (id) => {
-    if(selectedCardId.value === id) {
+    if (selectedCardId.value === id) {
         selectedCardId.value = null
     }
     // filter会返回一个新数组，而不是在原数组上更改，因此需要重新赋值
-     statCards.value =  statCards.value.filter(card => {
+    statCards.value = statCards.value.filter(card => {
         return card.id !== id
     })
 }
@@ -155,13 +156,9 @@ const deleteCard = (id) => {
                     </div>
                 </div>
                 <div class="stat-grid" v-if="filterCards.length > 0">
-                    <div class="card" v-for="card in filterCards" :key="card.id" @click="handleCardSelected(card.id)"
-                        :class="{ cardActive: selectedCardId === card.id }">
-                        <span>{{ card.title }}</span>
-                        <span>{{ card.value }}</span>
-                        <span>{{ card.desc }}</span>
-                        <button @click.stop="deleteCard(card.id)">删除</button>
-                    </div>
+                    <stat-card v-for="card in filterCards" :key="card.id" :card="card"
+                        :is-active="selectedCardId === card.id" @select="handleCardSelected"
+                        @delete="deleteCard"></stat-card>
                 </div>
                 <div v-else>
                     暂无匹配数据
@@ -258,47 +255,7 @@ const deleteCard = (id) => {
     grid-template-columns: repeat(4, 1fr);
     gap: 16px;
 
-    .card {
-        min-height: 120px;
-        background: white;
-        border-radius: 10px;
-        /* 文字居中 */
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        align-items: center;
-        justify-content: center;
-        /* 阴影四参数：水平偏移 垂直偏移 模糊程度 阴影颜色 */
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-
-        cursor: pointer;
-        /* 定义悬浮动画 / 状态变化时的过渡规则 */
-        /* 浏览器会在 0.2 秒内，从开始状态逐渐变为结束状态。 */
-        transition:
-            transform 0.2s ease,
-            box-shadow 0.2s ease;
-        /* 控制过渡动画从开始到结束需要花费的时间 */
-        /* transition-duration: 1s; */
-    }
-
     margin-bottom: 20px;
-}
-
-/* 给当前选中的卡片增加边框颜色 */
-.card.cardActive {
-    border: 2px solid #1677ff;
-}
-
-/* 悬浮动画 */
-.card:hover {
-    /* Y 表示垂直方向,负数向上移动 */
-    transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-}
-
-/* 点击反馈 */
-.card:active {
-    transform: translateY(-1px) scale(0.99);
 }
 
 .panel-grid {
