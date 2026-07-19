@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue';
 import StatCard from './components/StatCard.vue';
+import CardDetail from './components/CardDetail.vue';
 
 // 定义是否展开侧边栏状态，初始为展开true
 const isExpand = ref(true)
@@ -163,16 +164,7 @@ const deleteCard = (id) => {
                 <div v-else>
                     暂无匹配数据
                 </div>
-                <div class="card-detail">
-                    <div v-if="!selectedCard">
-                        请选择一张统计卡片查看详情
-                    </div>
-                    <div v-else>
-                        <div>当前查看：{{ selectedCard.title }}</div>
-                        <div>数值：{{ selectedCard.value }}</div>
-                        <div>说明：{{ selectedCard.desc }}</div>
-                    </div>
-                </div>
+                <card-detail :card="selectedCard"></card-detail>
                 <div class="panel-grid">
                     <div class="data-area">数据区域</div>
                     <div class="dynamic-area">动态区域</div>
