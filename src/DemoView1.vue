@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue';
 import StatCard from './components/StatCard.vue';
 import CardDetail from './components/CardDetail.vue';
+import CardForm from './components/CardForm.vue';
 
 // 定义是否展开侧边栏状态，初始为展开true
 const isExpand = ref(true)
@@ -73,16 +74,10 @@ const filterCards = computed(() => {
     )
 })
 
-// 表单：新增卡片
-const cardForm = ref({
-    id: '',
-    title: '',
-    value: '',
-    desc: ''
-})
 
-const addNewCard = () => {
-    if (!cardForm.value.title.trim()) {
+// 新增卡片
+const addNewCard = (form) => {
+    if (!form.title.trim()) {
         console.log('请输入内容')
         return
     }
@@ -90,21 +85,13 @@ const addNewCard = () => {
     statCards.value.push(
         {
             id: Date.now(),
-            title: cardForm.value.title,
-            value: cardForm.value.value,
-            desc: cardForm.value.desc
+            title: form.title,
+            value: form.value,
+            desc: form.desc
         }
     )
-    // 清空表单
-    clearForm()
 }
 
-// 清空表单方法
-const clearForm = () => {
-    cardForm.value.title = ''
-    cardForm.value.value = ''
-    cardForm.value.desc = ''
-}
 
 // 根据id删除卡片
 const deleteCard = (id) => {
@@ -136,24 +123,9 @@ const deleteCard = (id) => {
                     <div class="page-title">
                         <span style="margin-right: 10px;">页面标题</span>
                         <input type="text" v-model="keyword" placeholder="请输入筛选关键字">
-                        <div class="card-form" style="margin-top: 20px;">
-                            <div class="card-form">
-                                <label for="title">标题：</label>
-                                <input type="text" v-model="cardForm.title" id="cardForm.title" name="cardForm.title"
-                                    placeholder="请输入卡片标题">
-                                <label for="value">数值：</label>
-                                <input type="text" v-model="cardForm.value" id="cardForm.value" name="cardForm.value"
-                                    placeholder="请输入卡片数值">
-                                <label for="desc">说明：</label>
-                                <input type="text" v-model="cardForm.desc" id="cardForm.desc" name="cardForm.desc"
-                                    placeholder="请输入卡片说明">
-                                <a-button type="primary" @click="addNewCard" size="small"
-                                    style="margin-left: 10px;">新增</a-button>
-                            </div>
+                        <div style="margin-top: 20px;">
+                            <card-form @submit="addNewCard"></card-form>
                         </div>
-                    </div>
-                    <div class="page-button">
-                        <button>新建按钮</button>
                     </div>
                 </div>
                 <div class="stat-grid" v-if="filterCards.length > 0">
