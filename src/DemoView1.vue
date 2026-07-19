@@ -171,7 +171,7 @@ const handleEditCard = () => {
                         <span style="margin-right: 10px;">页面标题</span>
                         <input type="text" v-model="keyword" placeholder="请输入筛选关键字">
                         <div style="margin-top: 20px;">
-                            <card-form v-model="cardForm" @submit="handleSubmitCard" @reset="clearCardForm"></card-form>
+                            <card-form v-model="cardForm" :is-edit="editingCardId !== null" @submit="handleSubmitCard" @reset="clearCardForm"></card-form>
                         </div>
                     </div>
                     <a-button @click="handleEditCard">编辑选中卡片</a-button>

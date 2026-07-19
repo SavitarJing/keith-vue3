@@ -6,7 +6,7 @@
         <input type="text" v-bind:value="props.modelValue.value" @input="handleInput('value', $event)" placeholder="请输入卡片数值">
         <label for="desc">说明：</label>
         <input type="text" v-bind:value="props.modelValue.desc" @input="handleInput('desc', $event)" placeholder="请输入卡片说明">
-        <a-button type="primary" @click="handleSubmit" size="small" style="margin-left: 10px;">新增</a-button>
+        <a-button type="primary" @click="handleSubmit" size="small" style="margin-left: 10px;">{{ isEdit ? '保存修改' : '新增' }}</a-button>
         <a-button type="primary" @click="handleReset" size="small" style="margin-left: 10px;">清空</a-button>
     </div>
 </template>
@@ -18,6 +18,10 @@ const props = defineProps({
     modelValue: {
         type: Object,
         required: true
+    },
+    isEdit: {
+        type: Boolean,
+        default: false
     }
 })
 
